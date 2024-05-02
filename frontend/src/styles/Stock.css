@@ -1,0 +1,111 @@
+/* Resets some styles for better cross-browser compatibility */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Darker than body */
+  --primary-color: #222;
+  /* --bg-color: #f4f4f4; */
+  /* Dark BG */
+  --bg-color: #333;
+}
+
+head,
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--bg-color);
+  padding: 20px;
+  color: white;
+}
+
+/* stock.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+}
+
+.price-info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.buttons-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: monospace, sans-serif;
+  opacity: 0.8;
+}
+
+.button:hover {
+  opacity: 1;
+  outline: 1px solid white;
+}
+
+.button.active {
+  opacity: 1;
+  outline: 1px solid white;
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.current-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: max-content;
+  justify-content: center;
+  font-family: monospace, sans-serif;
+}
+
+.info > p {
+  padding: 10px;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
