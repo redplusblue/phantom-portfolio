@@ -1,4 +1,4 @@
-import yfinance as yf
+import yfinance as yf # type: ignore
 
 def fetch_stock_data(symbol, interval='1d', period='5d'):
     """

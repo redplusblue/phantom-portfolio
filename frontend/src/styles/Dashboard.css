@@ -1,0 +1,33 @@
+.dashboard-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.dashboard-search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+/* Search Bar */
+.dashboard-search > div {
+  min-width: 500px;
+}
+/* Search button, onfocus border bottom */
+.dashboard-search .MuiFilledInput-underline:after {
+  border-bottom-color: var(--text-color);
+}
+
+.dashboard-search .MuiFormLabel-root,
+.dashboard-search .MuiFormLabel-root.Mui-focused {
+  color: var(--text-color);
+}
+
+.dashboard-search .MuiFilledInput-root {
+  color: var(--text-color);
+}

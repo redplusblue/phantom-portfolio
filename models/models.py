@@ -1,4 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 
 db = SQLAlchemy()
 
@@ -8,6 +8,19 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     balance = db.Column(db.Float, default=10000.0)  # Initial virtual currency balance
-
+    portfolio = db.Column(db.String(1000), default='{}')  # JSON string representing the user's portfolio
+        
     def __repr__(self):
         return f'<User {self.username}>'
+
+# Stock
+class Stock(db.Model):
+    symbol = db.Column(db.String(50), primary_key=True)
+    purchasePrice = db.Column(db.Float, nullable=False)
+    purchaseDate = db.Column(db.DateTime, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('stocks', lazy=True))
+    
+    def __repr__(self):
+        return f'<Stock {self.symbol}> @ {self.purchasePrice} x {self.quantity}'

@@ -1,0 +1,58 @@
+/* Resets some styles for better cross-browser compatibility */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Light Mode */
+  --primary-color: #007bff;
+  --bg-color: #f8f9fa;
+  --text-color: #000;
+  /* Dark Mode */
+  /* --primary-color: #222;
+  --bg-color: #333;
+  --text-color: #fff; */
+}
+
+head,
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--bg-color);
+  padding: 20px;
+  color: var(--text-color);
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: monospace, sans-serif;
+  opacity: 0.8;
+}
+
+.button:hover {
+  opacity: 1;
+  outline: 1px solid white;
+}
+
+.button.active {
+  opacity: 1;
+  outline: 1px solid white;
+}
