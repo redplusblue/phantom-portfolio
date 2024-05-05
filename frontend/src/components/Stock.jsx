@@ -57,14 +57,15 @@ export default function Stock({ symbol }) {
 
   useEffect(() => {
     // Get user credentials
-    if (!localStorage.getItem("token") || !sessionStorage.getItem("token")) {
+    if (!localStorage.getItem("token") && !sessionStorage.getItem("token")) {
+      console.error("User not logged in");
       navigate("/login");
     }
     // Send token as User-Id header
     const fetchCurrentPrice = async () => {
       const response = await fetch(`/api/stock/${symbol}?period=1d`, {
         headers: {
-          "User-Id":
+          Authorization:
             localStorage.getItem("token") || sessionStorage.getItem("token"),
         },
       });
@@ -78,7 +79,7 @@ export default function Stock({ symbol }) {
     const fetchData = async () => {
       const response = await fetch(`/api/stock/${symbol}?period=${timeFrame}`, {
         headers: {
-          "User-Id":
+          Authorization:
             localStorage.getItem("token") || sessionStorage.getItem("token"),
         },
       });

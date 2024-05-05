@@ -25,12 +25,14 @@ body {
 #root {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: "Arial", sans-serif;
   background-color: var(--bg-color);
-  padding: 20px;
+  line-height: 1 !important;
   color: var(--text-color);
 }
 

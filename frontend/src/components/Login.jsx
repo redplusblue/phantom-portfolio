@@ -19,12 +19,23 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const defaultTheme = createTheme();
 
+document.title = "Login";
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false); // State to handle remember me checkbox
   const [alertMsg, setAlertMsg] = useState([false, "", "error"]); // Display, Message, Severity
   const navigate = useNavigate();
+
+  // Check if user is already logged in
+  try {
+    if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
+      navigate("/");
+    }
+  } catch (error) {
+    console.error("Error checking user login:", error);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,7 +50,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, remember }),
       });
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
         const { token } = data;
@@ -50,7 +61,7 @@ export default function Login() {
         }
         setAlertMsg([true, "Login successful, redirecting...", "success"]);
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 1500);
       } else {
         setAlertMsg([true, "Invalid username or password", "error"]);
@@ -96,7 +107,7 @@ export default function Login() {
               Welcome to the Trading Simulator
             </Typography>
             <br />
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
