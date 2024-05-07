@@ -35,6 +35,9 @@ export default function Home() {
         } else {
           setIsLoggedIn(false);
           setError([true, "Session expired, please log in again"]);
+          // Remove Token
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
           setTimeout(() => {
             navigate("/login");
           }, 1500);

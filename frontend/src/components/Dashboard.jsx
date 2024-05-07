@@ -13,6 +13,8 @@ import {
 import { InsertEmoticonOutlined } from "@mui/icons-material";
 import StockSearch from "./StockSearch";
 import "../styles/Dashboard.css";
+import Portfolio from "./Portfolio";
+import Balance from "./Balance";
 
 export default function Dashboard() {
   const [user, setUser] = useState({});
@@ -44,7 +46,7 @@ export default function Dashboard() {
       }
     }
     fetchUser();
-  }, []);
+  }, [value]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -109,14 +111,16 @@ export default function Dashboard() {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    backgroundColor: "var(--primary-color)",
-                    color: "var(--text-color)",
-                    width: "fit-content",
-                    overflow: "hidden",
-                    boxShadow: "none",
-                    padding: "0px",
+                slotProps={{
+                  paper: {
+                    style: {
+                      backgroundColor: "var(--primary-color)",
+                      color: "var(--text-color)",
+                      width: "fit-content",
+                      overflow: "hidden",
+                      boxShadow: "none",
+                      padding: "0px",
+                    },
                   },
                 }}
               >
@@ -153,6 +157,23 @@ export default function Dashboard() {
           <Tab label="Balance" />
           <Tab label="Transactions" />
         </Tabs>
+      </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        {value === 0 && <Portfolio />}
+        {value === 1 && <Balance balance={user.balance} />}
+        {value === 2 && (
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{
+              fontWeight: "bold",
+              color: "var(--text-color)",
+              padding: "10px",
+            }}
+          >
+            Transactions
+          </Typography>
+        )}
       </Box>
     </>
   );
