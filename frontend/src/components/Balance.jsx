@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import propTypes from "prop-types";
 
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 function Balance({ balance }) {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
@@ -71,17 +70,29 @@ function Balance({ balance }) {
   };
 
   const getBackgroundColor = (balance) => {
-    if (balance < 1000) return "red";
-    if (balance >= 1000 && balance < 5000) return "blue";
-    return "green";
+    if (balance < 1000) return "#9E0031";
+    if (balance >= 1000 && balance < 5000) return "#5FB49C";
+    return "#98DFAF";
   };
 
   return (
     <>
+      <Typography
+        variant="h4"
+        color="text.secondary"
+        sx={{ marginBottom: 1, marginTop: 2, textAlign: "center" }}
+      >
+        <AccountBalanceWalletOutlinedIcon
+          sx={{ verticalAlign: "middle", fontSize: "2.5rem" }}
+        />
+        &nbsp;Your Balance
+      </Typography>
       <Card
         sx={{
           maxWidth: 300,
+          minHeight: 200,
           margin: "auto",
+          alignContent: "center",
           padding: 2,
           textAlign: "center",
           backgroundColor: getBackgroundColor(parseFloat(curBalance)),
@@ -93,26 +104,17 @@ function Balance({ balance }) {
         }}
       >
         <Typography
-          variant="h6"
-          color="text.secondary"
-          sx={{ marginBottom: 1 }}
-        >
-          <AccountBalanceWalletIcon
-            sx={{ verticalAlign: "middle", fontSize: "1.5rem" }}
-          />
-          &nbsp;Your Balance
-        </Typography>
-        <Typography
-          variant="h5"
+          variant="h4"
           component="div"
           sx={{
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
             fontWeight: "bold",
+            minHeight: "fit-content",
           }}
         >
-          $
+          {"$ "}
           {parseFloat(curBalance).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
+            minimumFractionDigits: 0,
             maximumFractionDigits: 2,
           })}
         </Typography>

@@ -23,15 +23,10 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import { useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material";
 
-export default function Stock({ symbol }) {
+export default function Stock({ symbol, currentPrice, setError }) {
   const [timeFrame, setTimeFrame] = useState("5d");
   const [stockData, setStockData] = useState([]);
-  const [currentPrice, setCurrentPrice] = useState(0);
-  const [error, setError] = useState([false, ""]);
-  const navigate = useNavigate();
 
   function errorFromCode(code) {
     let message = "";
@@ -56,26 +51,6 @@ export default function Stock({ symbol }) {
   }
 
   useEffect(() => {
-    // Get user credentials
-    if (!localStorage.getItem("token") && !sessionStorage.getItem("token")) {
-      console.error("User not logged in");
-      navigate("/login");
-    }
-    // Send token as User-Id header
-    const fetchCurrentPrice = async () => {
-      const response = await fetch(`/api/stock/${symbol}?period=1d`, {
-        headers: {
-          Authorization:
-            localStorage.getItem("token") || sessionStorage.getItem("token"),
-        },
-      });
-      if (response.status !== 200) {
-        setError([true, errorFromCode(response.status)]);
-        return;
-      }
-      const data = await response.json();
-      setCurrentPrice(data);
-    };
     const fetchData = async () => {
       const response = await fetch(`/api/stock/${symbol}?period=${timeFrame}`, {
         headers: {
@@ -84,14 +59,14 @@ export default function Stock({ symbol }) {
         },
       });
       if (response.status !== 200) {
-        setError([true, errorFromCode(response.status)]);
+        setError([true, errorFromCode(response.status), "error"]);
         return;
       }
       const data = await response.json();
       setStockData(data);
     };
     fetchData();
-    fetchCurrentPrice();
+    // fetchCurrentPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeFrame, symbol]);
 
@@ -173,76 +148,70 @@ export default function Stock({ symbol }) {
 
   return (
     <>
-      {!error[0] ? (
-        <div className="container">
-          <h1>{symbol.toUpperCase()} - Stock Dashboard</h1>
-          <div className="price-info">
-            <div className="current-info">
-              {currentPrice.length > 0 &&
-                currentPrice.map((item) => (
-                  <div key={item.Date} className="info">
-                    <p>
-                      <strong>Date:</strong> {dateTransformer(item.Date)}
-                    </p>
-                    <p>
-                      <strong>Open:</strong> ${Number(item.Open).toFixed(2)}
-                    </p>
-                    <p>
-                      <strong>Close:</strong> ${Number(item.Close).toFixed(2)}
-                    </p>
-                    <p>
-                      <strong>High:</strong> ${Number(item.High).toFixed(2)}
-                    </p>
-                    <p>
-                      <strong>Low:</strong> ${Number(item.Low).toFixed(2)}
-                    </p>
-                    <p>
-                      <strong>Volume:</strong>{" "}
-                      {item.Volume.toString().replace(
-                        /\B(?=(\d{3})+(?!\d))/g,
-                        ","
-                      )}
-                    </p>
-                  </div>
-                ))}
-            </div>
-            <div className="chart-container">
-              <Line options={options} data={data} />
-              <div className="buttons-container">
-                {[
-                  "5d",
-                  "1mo",
-                  "3mo",
-                  "6mo",
-                  "ytd",
-                  "1y",
-                  "2y",
-                  "5y",
-                  "10y",
-                  "max",
-                ].map((period) => (
-                  <button
-                    key={period}
-                    onClick={() => setTimeFrame(period)}
-                    style={{
-                      outline: timeFrame === period && "1px solid white",
-                    }}
-                    className="button"
-                  >
-                    {period}
-                  </button>
-                ))}
+      <div className="container">
+        <h1>{symbol.toUpperCase()} - Stock Dashboard</h1>
+        <div className="price-info">
+          <div className="current-info">
+            {currentPrice && (
+              <div key={currentPrice.Date} className="info">
+                <p>
+                  <strong>Date:</strong> {dateTransformer(currentPrice.Date)}
+                </p>
+                <p>
+                  <strong>Open:</strong> ${Number(currentPrice.Open).toFixed(2)}
+                </p>
+                <p>
+                  <strong>Close:</strong> $
+                  {Number(currentPrice.Close).toFixed(2)}
+                </p>
+                <p>
+                  <strong>High:</strong> ${Number(currentPrice.High).toFixed(2)}
+                </p>
+                <p>
+                  <strong>Low:</strong> ${Number(currentPrice.Low).toFixed(2)}
+                </p>
+                <p>
+                  <strong>Volume:</strong> {currentPrice.Volume}
+                </p>
               </div>
+            )}
+          </div>
+          <div className="chart-container">
+            <Line options={options} data={data} />
+            <div className="buttons-container">
+              {[
+                "5d",
+                "1mo",
+                "3mo",
+                "6mo",
+                "ytd",
+                "1y",
+                "2y",
+                "5y",
+                "10y",
+                "max",
+              ].map((period) => (
+                <button
+                  key={period}
+                  onClick={() => setTimeFrame(period)}
+                  style={{
+                    outline: timeFrame === period && "1px solid white",
+                  }}
+                  className="button"
+                >
+                  {period}
+                </button>
+              ))}
             </div>
           </div>
         </div>
-      ) : (
-        <Alert severity="error">{error[1]}</Alert>
-      )}
+      </div>
     </>
   );
 }
 
 Stock.propTypes = {
   symbol: propTypes.string.isRequired,
+  currentPrice: propTypes.object.isRequired,
+  setError: propTypes.func.isRequired,
 };

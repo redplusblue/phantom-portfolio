@@ -15,9 +15,15 @@ import StockSearch from "./StockSearch";
 import "../styles/Dashboard.css";
 import Portfolio from "./Portfolio";
 import Balance from "./Balance";
+import Transactions from "./Transactions";
+import Copyright from "./Copyright";
 
 export default function Dashboard() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    balance: 0,
+    portfolio: [],
+    stocklists: [],
+  });
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -38,6 +44,7 @@ export default function Dashboard() {
             portfolio: JSON.parse(data.portfolio),
             stocklists: JSON.parse(data.stocklists),
           });
+          console.log("User data fetched successfully", data.portfolio);
         } else {
           console.error("Error fetching user data");
         }
@@ -159,21 +166,19 @@ export default function Dashboard() {
         </Tabs>
       </Box>
       <Box sx={{ flexGrow: 1 }}>
-        {value === 0 && <Portfolio />}
+        {value === 0 && <Portfolio portfolio={user.portfolio} />}
         {value === 1 && <Balance balance={user.balance} />}
-        {value === 2 && (
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{
-              fontWeight: "bold",
-              color: "var(--text-color)",
-              padding: "10px",
-            }}
-          >
-            Transactions
-          </Typography>
-        )}
+        {value === 2 && <Transactions />}
+      </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ padding: "10px" }}
+        >
+          <Copyright />
+        </Typography>
       </Box>
     </>
   );
