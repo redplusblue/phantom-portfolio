@@ -54,9 +54,13 @@ def create_transaction():
     if user.balance < price * quantity:
         return jsonify({'error': 'Insufficient balance'}), 400
     new_transaction = Transaction(symbol=symbol, price=price, quantity=quantity, reversed=reversed, date=date, user_id=user_id)
-    db.session.add(new_transaction)
+    # Deduct the balance from the user
+    user.balance -= (price * quantity)
+    print(user.balance)
+    if not update_portfolio(user_id, symbol, price, quantity, date):
+        return jsonify({'error': 'Failed to update portfolio'}), 500
+    db.session.add(new_transaction) 
     db.session.commit()
-    update_portfolio(user_id, symbol, price, quantity, date)
     return jsonify({'message': 'Transaction created successfully'}), 201
 
 # Reverse a transaction
@@ -80,7 +84,6 @@ def reverse_transaction(id):
     return jsonify({'message': 'Transaction reversed successfully'}), 200
 
 # Non Route Functions
-# TODO NEEDS TO BE FIXED
 # Update the portfolio after a new transaction
 def update_portfolio(user_id, symbol, price, quantity, date):
     if not user_id or not symbol or not price or not quantity or not date:
@@ -91,20 +94,8 @@ def update_portfolio(user_id, symbol, price, quantity, date):
     portfolio = json.loads(user.portfolio)
     if not portfolio:
         portfolio = []
-    # Check if the stock is already in the portfolio
-    stock_exists = False
-    for stock in portfolio:
-        if stock['symbol'] == symbol:
-            stock['purchasePrice'] = (stock['purchasePrice'] * stock['quantity'] + price * quantity) / (stock['quantity'] + quantity)
-            stock['quantity'] += quantity
-            stock_exists = True
-            break    
-    # If the stock is not in the portfolio
-    if not stock_exists:
-        cur_stock = {'symbol': symbol, 'purchasePrice': price, 'purchaseDate': date.strftime('%Y-%m-%d'), 'quantity': quantity}
-        cur_stock_data = {'symbol': cur_stock.symbol, 'purchasePrice': cur_stock.purchasePrice, 'purchaseDate': cur_stock.purchaseDate.strftime('%Y-%m-%d'), 'quantity': cur_stock.quantity}
-        portfolio.append(cur_stock_data)
-    
+    cur_stock = {'symbol': symbol, 'purchasePrice': price, 'purchaseDate': date.strftime('%Y-%m-%d'), 'quantity': quantity}
+    portfolio.append(cur_stock)    
     user.portfolio = json.dumps(portfolio)
     db.session.commit()
     return True

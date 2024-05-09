@@ -34,7 +34,8 @@ def get_user():
 @users_bp.route('/api/balance', methods=['GET'])
 def get_balance():
     # Retrieve the current user's balance
-    user_id = request.headers.get('Authorization')
+    token = request.headers.get('Authorization')
+    user_id = cache.get(token).decode('utf-8')
     user = User.query.get(user_id)
     if user:
         return jsonify({'balance': user.balance}), 200
