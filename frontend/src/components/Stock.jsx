@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-export default function Stock({ symbol, currentPrice, setError }) {
+export default function Stock({ symbol, setError }) {
   const [timeFrame, setTimeFrame] = useState("5d");
   const [stockData, setStockData] = useState([]);
 
@@ -149,33 +149,7 @@ export default function Stock({ symbol, currentPrice, setError }) {
   return (
     <>
       <div className="container">
-        <h1>{symbol.toUpperCase()} - Stock Dashboard</h1>
         <div className="price-info">
-          <div className="current-info">
-            {currentPrice && (
-              <div key={currentPrice.Date} className="info">
-                <p>
-                  <strong>Date:</strong> {dateTransformer(currentPrice.Date)}
-                </p>
-                <p>
-                  <strong>Open:</strong> ${Number(currentPrice.Open).toFixed(2)}
-                </p>
-                <p>
-                  <strong>Close:</strong> $
-                  {Number(currentPrice.Close).toFixed(2)}
-                </p>
-                <p>
-                  <strong>High:</strong> ${Number(currentPrice.High).toFixed(2)}
-                </p>
-                <p>
-                  <strong>Low:</strong> ${Number(currentPrice.Low).toFixed(2)}
-                </p>
-                <p>
-                  <strong>Volume:</strong> {currentPrice.Volume}
-                </p>
-              </div>
-            )}
-          </div>
           <div className="chart-container">
             <Line options={options} data={data} />
             <div className="buttons-container">
@@ -212,6 +186,5 @@ export default function Stock({ symbol, currentPrice, setError }) {
 
 Stock.propTypes = {
   symbol: propTypes.string.isRequired,
-  currentPrice: propTypes.object.isRequired,
   setError: propTypes.func.isRequired,
 };

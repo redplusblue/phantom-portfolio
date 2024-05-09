@@ -1,7 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography, Grid, Alert } from "@mui/material";
+import { Box, Button, TextField, Typography, Alert, Chip } from "@mui/material";
 import Stock from "./Stock";
+import Copyright from "./Copyright";
+
+document.title = "Stock Page";
 
 function StockPage() {
   const { symbol } = useParams();
@@ -67,71 +70,161 @@ function StockPage() {
     setTotalPrice(currentPrice.Close * presetQuantity);
   };
 
+  const dateTransformer = (timeFrame) => {
+    // Converts "Fri 02 Feb 2024 05:00:00 GMT" to "02 Feb '24"
+    return timeFrame
+      .split(" ")
+      .slice(1, 4)
+      .join(" ")
+      .replace(/\d{2}(\d{2})/, "'$1");
+  };
+
   return (
     <>
-      <Grid
-        container
-        spacing={2}
+      <Typography
+        variant="h2"
         sx={{
-          margin: "auto",
-          height: "100%",
+          textAlign: "center",
+          fontFamily: "cursive",
+          margin: "0px",
+          padding: "0px",
         }}
       >
-        <Grid item xs={12} md={6}>
+        {symbol.toUpperCase()} Stock Page
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          height: "max-content",
+          width: "100%",
+          // Align to top
+          alignItems: "flex-start",
+        }}
+      >
+        <Box sx={{ flex: 1, alignSelf: "flex-start" }}>
+          <Stock symbol={symbol} setError={setError} />
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            alignContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: "30px",
+            alignItems: "center",
+            marginTop: "50px",
+          }}
+        >
           {error[0] && <Alert severity={error[2]}>{error[1]}</Alert>}
-          <Stock
-            symbol={symbol}
-            currentPrice={currentPrice}
-            setError={setError}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h5" gutterBottom>
-            Buy {symbol}
-          </Typography>
-          <TextField
-            fullWidth
-            label="Quantity"
-            type="number"
-            value={quantity}
-            onChange={(e) => {
-              setQuantity(e.target.value);
-              // Ensure currentPrice.Close is a number before calculating
-              if (!isNaN(currentPrice.Close)) {
-                setTotalPrice(currentPrice.Close * e.target.value);
-              }
-            }}
-            variant="outlined"
-          />
-          <Typography sx={{ mt: 2, mb: 2 }}>
-            Total Price: ${isNaN(totalPrice) ? "0.00" : totalPrice.toFixed(2)}
-          </Typography>
-          <Box sx={{ mt: 2, display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {["1", "5", "10", "20", "25", "50", "100", "500"].map((qty) => (
-              <Button
-                key={qty}
-                variant="outlined"
-                onClick={() => handlePresetQuantity(qty)}
-                sx={{
-                  color: "var(--text-color)",
-                  borderColor: "var(--text-color)",
-                  "&:hover": {
-                    borderColor: "var(--primary-color)",
-                    color: "var(--primary-color)",
-                  },
-                }}
-              >
-                {qty} Shares
-              </Button>
-            ))}
+          <Box className="current-info">
+            {currentPrice && (
+              <Box key={currentPrice.Date} className="info">
+                <Typography component="p">
+                  <strong>Date:</strong> {dateTransformer(currentPrice.Date)}
+                </Typography>
+                <Typography component="p">
+                  <strong>Open:</strong> ${Number(currentPrice.Open).toFixed(2)}
+                </Typography>
+                <Typography component="p">
+                  <strong>Close:</strong> $
+                  {Number(currentPrice.Close).toFixed(2)}
+                </Typography>
+                <Typography component="p">
+                  <strong>High:</strong> ${Number(currentPrice.High).toFixed(2)}
+                </Typography>
+                <Typography component="p">
+                  <strong>Low:</strong> ${Number(currentPrice.Low).toFixed(2)}
+                </Typography>
+                <Typography component="p">
+                  <strong>Volume:</strong>{" "}
+                  {String(currentPrice.Volume)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    .replace(".00", "")}
+                </Typography>
+              </Box>
+            )}
           </Box>
-          <Box sx={{ mt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "10px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h5" gutterBottom>
+              Buy {symbol}
+            </Typography>
+            <TextField
+              fullWidth
+              label="Quantity"
+              type="number"
+              value={quantity}
+              onChange={(e) => {
+                setQuantity(e.target.value);
+                // Ensure currentPrice.Close is a number before calculating
+                if (!isNaN(currentPrice.Close)) {
+                  setTotalPrice(currentPrice.Close * e.target.value);
+                }
+              }}
+              sx={{ width: "300px" }}
+              variant="outlined"
+            />
+          </Box>
+          <Chip
+            sx={{
+              color: "var(--text-color)",
+              backgroundColor: "var(--primary-color)",
+              fontSize: "1.2rem",
+            }}
+            label={`Total Price: $${
+              isNaN(totalPrice)
+                ? "0.00"
+                : totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }`}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              gap: "10px",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {["1", "5", "10", "20", "25", "50", "100", "500", "1000"].map(
+              (qty) => (
+                <Button
+                  key={qty}
+                  variant="outlined"
+                  onClick={() => handlePresetQuantity(qty)}
+                  sx={{
+                    color: "var(--text-color)",
+                    borderColor: "var(--text-color)",
+                    "&:hover": {
+                      borderColor: "var(--primary-color)",
+                      color: "var(--primary-color)",
+                    },
+                  }}
+                >
+                  {qty} Shares
+                </Button>
+              )
+            )}
+          </Box>
+          <Box>
             <Button variant="contained" onClick={handleBuy}>
               Buy
             </Button>
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: "50px" }}>
+        <Copyright />
+      </Box>
     </>
   );
 }
