@@ -48,6 +48,10 @@ function Portfolio({ portfolio }) {
           }
         })
       );
+      // Sort stocks by purchaseDate in descending order
+      updatedStocks.sort(
+        (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate)
+      );
       setStocks(updatedStocks);
       let total = 0;
       updatedStocks.forEach((stock) => {
@@ -138,7 +142,10 @@ function Portfolio({ portfolio }) {
                       {stock.symbol}
                     </Link>
                   </TableCell>
-                  <TableCell align="center">${stock.purchasePrice}</TableCell>
+                  <TableCell align="center">
+                    $
+                    {stock.purchasePrice ? stock.purchasePrice.toFixed(2) : 0.0}
+                  </TableCell>
                   <TableCell align="center">
                     {new Date(stock.purchaseDate).toLocaleDateString()}
                   </TableCell>

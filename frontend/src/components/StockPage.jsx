@@ -18,6 +18,7 @@ function StockPage() {
   });
   const [quantity, setQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0.0);
+  const [balance, setBalance] = useState(0.0);
   const [error, setError] = useState([false, "", "error"]);
 
   useEffect(() => {
@@ -40,28 +41,51 @@ function StockPage() {
       setCurrentPrice(data[0]); // Assuming the API returns an array with at least one object
     };
 
+    const fetchUserBalance = async () => {
+      const response = await fetch("/api/balance", {
+        headers: {
+          Authorization:
+            localStorage.getItem("token") || sessionStorage.getItem("token"),
+        },
+      });
+      if (response.status !== 200) {
+        setError([true, "Error fetching user balance", "error"]);
+        return;
+      }
+      const data = await response.json();
+      setBalance(data.balance);
+    };
+
     fetchCurrentPrice();
-  }, [navigate, symbol]); // Removed quantity from dependencies to avoid unnecessary re-fetches
+    fetchUserBalance();
+  }, [navigate, symbol, balance]); // Removed quantity from dependencies to avoid unnecessary re-fetches
 
   const handleBuy = async () => {
-    const response = await fetch("/api/transactions/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          localStorage.getItem("token") || sessionStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        symbol: symbol,
-        price: currentPrice.Close,
-        quantity: parseInt(quantity, 10),
-      }),
-    });
-    if (response.ok) {
-      alert("Transaction successful");
-    } else {
-      const data = await response.json();
-      setError([true, data.error, "error"]);
+    try {
+      const response = await fetch("/api/transactions/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            localStorage.getItem("token") || sessionStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          symbol: symbol,
+          price: currentPrice.Close,
+          quantity: parseInt(quantity, 10),
+        }),
+      });
+      if (response.ok) {
+        setError([true, "Transaction successful", "success"]);
+        setQuantity(0);
+        setTotalPrice(0.0);
+        setBalance(0.0);
+      } else {
+        const data = await response.json();
+        setError([true, data.error, "error"]);
+      }
+    } catch (error) {
+      setError([true, "Error buying stock [SERVER ERROR]", "error"]);
     }
   };
 
@@ -156,7 +180,7 @@ function StockPage() {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Buy {symbol}
+              Buy ${symbol}
             </Typography>
             <TextField
               fullWidth
@@ -174,18 +198,40 @@ function StockPage() {
               variant="outlined"
             />
           </Box>
-          <Chip
+          <Box
             sx={{
-              color: "var(--text-color)",
-              backgroundColor: "var(--primary-color)",
-              fontSize: "1.2rem",
+              display: "flex",
+              flexDirection: "row",
+              gap: "10px",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            label={`Total Price: $${
-              isNaN(totalPrice)
-                ? "0.00"
-                : totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }`}
-          />
+          >
+            <Chip
+              sx={{
+                color: "var(--text-color)",
+                backgroundColor: "var(--primary-color)",
+                fontSize: "1.2rem",
+              }}
+              label={`Total Price: $${
+                isNaN(totalPrice)
+                  ? "0.00"
+                  : totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }`}
+            />
+            <Chip
+              sx={{
+                color: "var(--text-color)",
+                backgroundColor: "var(--primary-color)",
+                fontSize: "1.2rem",
+              }}
+              label={`Your Balance: $${
+                isNaN(balance)
+                  ? "0.00"
+                  : balance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }`}
+            />
+          </Box>
           <Box
             sx={{
               display: "flex",
