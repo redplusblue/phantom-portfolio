@@ -109,12 +109,12 @@ function StockPage() {
         variant="h2"
         sx={{
           textAlign: "center",
-          fontFamily: "cursive",
+          fontFamily: "Jaini Purwa",
           margin: "0px",
           padding: "0px",
         }}
       >
-        {symbol.toUpperCase()} Stock Page
+        {symbol.toUpperCase()} - Stock Page
       </Typography>
       <Box
         sx={{
@@ -194,7 +194,12 @@ function StockPage() {
                   setTotalPrice(currentPrice.Close * e.target.value);
                 }
               }}
-              sx={{ width: "300px" }}
+              sx={{
+                color: "var(--text-color)",
+                backgroundColor: "var(--background-color)",
+                width: "300px",
+                "& input": { textAlign: "center" },
+              }}
               variant="outlined"
             />
           </Box>

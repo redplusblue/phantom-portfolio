@@ -56,7 +56,6 @@ def create_transaction():
     new_transaction = Transaction(symbol=symbol, price=price, quantity=quantity, reversed=reversed, date=date, user_id=user_id)
     # Deduct the balance from the user
     user.balance -= (price * quantity)
-    print(user.balance)
     if not update_portfolio(user_id, symbol, price, quantity, date):
         return jsonify({'error': 'Failed to update portfolio'}), 500
     db.session.add(new_transaction) 
@@ -79,6 +78,15 @@ def reverse_transaction(id):
         return jsonify({'error': 'Transaction not found'}), 404
     if transaction.user_id != int(user_id):
         return jsonify({'error': 'Unauthorized: Invalid transaction id.'}), 401
+    # Return transaction price to user Balance
+    user.balance += transaction.price * transaction.quantity
+    # Deduct the transaction from the user's portfolio
+    portfolio = json.loads(user.portfolio)
+    for stock in portfolio:
+        if stock['symbol'] == transaction.symbol and stock['purchasePrice'] == transaction.price and stock['quantity'] == transaction.quantity:
+            portfolio.remove(stock)
+            break
+    user.portfolio = json.dumps(portfolio)
     transaction.reversed = True
     db.session.commit()
     return jsonify({'message': 'Transaction reversed successfully'}), 200

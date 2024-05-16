@@ -69,18 +69,16 @@ function Balance({ balance }) {
     }
   };
 
-  const getBackgroundColor = (balance) => {
-    if (balance < 1000) return "#9E0031";
-    if (balance >= 1000 && balance < 5000) return "#5FB49C";
-    return "#98DFAF";
-  };
-
   return (
     <>
       <Typography
         variant="h4"
-        color="text.secondary"
-        sx={{ marginBottom: 1, marginTop: 2, textAlign: "center" }}
+        sx={{
+          color: "var(--text-color)",
+          marginBottom: 1,
+          marginTop: 2,
+          textAlign: "center",
+        }}
       >
         <AccountBalanceWalletOutlinedIcon
           sx={{ verticalAlign: "middle", fontSize: "2.5rem" }}
@@ -95,8 +93,8 @@ function Balance({ balance }) {
           alignContent: "center",
           padding: 2,
           textAlign: "center",
-          backgroundColor: getBackgroundColor(parseFloat(curBalance)),
-          color: "var(--text-color)",
+          backgroundColor: "var(--primary-color)",
+          color: "var(--profit-color)",
           boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
           "&:hover": {
             boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
@@ -107,6 +105,7 @@ function Balance({ balance }) {
           variant="h4"
           component="div"
           sx={{
+            fontSize: "3rem",
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
             fontWeight: "bold",
             minHeight: "fit-content",
@@ -125,6 +124,10 @@ function Balance({ balance }) {
             marginTop: 2,
             backgroundColor: "var(--primary-color)",
             color: "var(--text-color)",
+            "&:hover": {
+              backgroundColor: "var(--primary-color)",
+              color: "var(--profit-color)",
+            },
           }}
         >
           Add Money
@@ -145,7 +148,8 @@ function Balance({ balance }) {
             sx={{
               position: "absolute",
               width: 300,
-              backgroundColor: "background.paper",
+              backgroundColor: "var(--primary-color)",
+              color: "var(--text-color)",
               boxShadow: 24,
               p: 4,
               borderRadius: 2,
@@ -187,7 +191,17 @@ function Balance({ balance }) {
                     key={value}
                     onClick={() => handlePresetAmount(value)}
                     variant="outlined"
-                    sx={{ margin: 1 }}
+                    sx={{
+                      margin: 1,
+                      color: "var(--profit-color)",
+                      borderColor: "var(--profit-color)",
+
+                      "&:hover": {
+                        color: "var(--text-color)",
+                        backgroundColor: "var(--profit-color)",
+                        borderColor: "var(--profit-color)",
+                      },
+                    }}
                   >
                     ${parseFloat(value).toLocaleString()}
                   </Button>
@@ -195,7 +209,16 @@ function Balance({ balance }) {
                 <Button
                   onClick={() => handlePresetAmount("custom")}
                   variant="outlined"
-                  sx={{ margin: 1 }}
+                  sx={{
+                    margin: 1,
+                    color: "var(--profit-color)",
+                    borderColor: "var(--profit-color)",
+                    "&:hover": {
+                      color: "var(--text-color)",
+                      backgroundColor: "var(--profit-color)",
+                      borderColor: "var(--profit-color)",
+                    },
+                  }}
                 >
                   Custom
                 </Button>

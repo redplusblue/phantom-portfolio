@@ -87,7 +87,7 @@ export default function Dashboard() {
           >
             <Grid item xs>
               <Typography
-                variant="h4"
+                variant="h3"
                 component="div"
                 sx={{
                   fontWeight: "bold",
@@ -154,9 +154,10 @@ export default function Dashboard() {
             },
             ".MuiTab-root": {
               color: "var(--text-color) !important",
+              fontSize: "1.2rem",
             },
             ".Mui-selected": {
-              color: "var(--primary-color) !important",
+              color: "var(--text-color) !important",
             },
           }}
         >

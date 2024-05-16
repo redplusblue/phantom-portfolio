@@ -4,6 +4,8 @@ import Dashboard from "./Dashboard";
 import "../styles/Home.css";
 import { Alert } from "@mui/material";
 
+document.title = "Home";
+
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState([false, ""]);

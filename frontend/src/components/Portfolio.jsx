@@ -67,8 +67,11 @@ function Portfolio({ portfolio }) {
       <Typography
         variant="h4"
         gutterBottom
-        color="text.secondary"
-        sx={{ textAlign: "center", marginTop: "1rem" }}
+        sx={{
+          color: "var(--text-color)",
+          textAlign: "center",
+          marginTop: "1rem",
+        }}
       >
         <MonetizationOnOutlinedIcon
           sx={{ fontSize: "2.5rem", verticalAlign: "middle" }}
@@ -82,7 +85,6 @@ function Portfolio({ portfolio }) {
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
           sx={{
             marginBottom: "1rem",
-            // backgroundColor: "var(--primary-color)",
             color: "var(--text-color)",
             fontSize: "1.5rem",
             textAlign: "center",
@@ -92,16 +94,32 @@ function Portfolio({ portfolio }) {
         <TableContainer
           component={Paper}
           sx={{
-            width: "70%",
+            width: "90%",
             margin: "auto",
           }}
         >
-          <Table aria-label="stock portfolio table">
+          <Table
+            aria-label="stock portfolio table"
+            sx={{
+              overflowX: "auto",
+              minWidth: "100%",
+              "& th, td": {
+                padding: "0.5rem",
+                fontSize: "1.2rem",
+                backgroundColor: "transparent !important",
+              },
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "transparent !important",
+            }}
+          >
             <TableHead>
               <TableRow
                 sx={{
                   backgroundColor: "var(--primary-color)",
-                  color: "var(--text-color)",
+                  "& th": {
+                    color: "var(--text-color) !important",
+                    fontSize: "1.2rem",
+                  },
                 }}
               >
                 <TableCell>Symbol</TableCell>
@@ -115,13 +133,13 @@ function Portfolio({ portfolio }) {
             <TableBody>
               {stocks.map((stock) => (
                 <TableRow
-                  key={stock.symbol}
+                  key={`${stock.symbol}@${stock.purchasePrice}@${stock.purchaseDate}@${stock.quantity}`}
                   sx={{
                     backgroundColor:
                       parseFloat(stock.purchasePrice) <=
                       parseFloat(stock.currentPrice)
-                        ? "rgba(75, 192, 75, 0.5)"
-                        : "rgba(255, 99, 132, 0.5)",
+                        ? "var(--profit-color)"
+                        : "var(--loss-color)",
                   }}
                 >
                   <TableCell
@@ -152,7 +170,10 @@ function Portfolio({ portfolio }) {
                   <TableCell align="center">{stock.quantity}</TableCell>
                   <TableCell align="center">${stock.currentPrice}</TableCell>
                   <TableCell align="center">
-                    ${(stock.currentPrice * stock.quantity).toFixed(2)}
+                    $
+                    {(stock.currentPrice * stock.quantity)
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TableCell>
                 </TableRow>
               ))}

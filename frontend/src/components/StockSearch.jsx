@@ -48,14 +48,37 @@ function StockSearch() {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment
+                position="start"
+                sx={{ color: "var(--text-color)" }}
+              >
                 <SearchOutlinedIcon />
               </InputAdornment>
             ),
-            style: { borderRadius: 20 }, // Rounded edges
+            style: {
+              borderRadius: 20,
+              backgroundColor: "var(--background-color)",
+              color: "var(--text-color)",
+            }, // Rounded edges
           }}
           InputLabelProps={{
-            style: { color: "var(--text-color)" }, // Using CSS variable for label color
+            style: { color: "var(--text-color)" },
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "var(--text-color)",
+                color: "var(--text-color)",
+              },
+              "&:hover fieldset": {
+                borderColor: "var(--text-color)",
+                color: "var(--text-color)",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "var(--text-color)",
+                color: "var(--text-color)",
+              },
+            },
           }}
         />
       )}

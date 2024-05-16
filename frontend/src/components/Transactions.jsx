@@ -80,8 +80,11 @@ function Transactions() {
       <Typography
         variant="h4"
         gutterBottom
-        color="text.secondary"
-        sx={{ textAlign: "center", marginTop: "1rem" }}
+        sx={{
+          color: "var(--text-color)",
+          textAlign: "center",
+          marginTop: "1rem",
+        }}
       >
         <LibraryBooksOutlinedIcon
           sx={{ fontSize: "2.5rem", verticalAlign: "middle" }}
@@ -102,13 +105,28 @@ function Transactions() {
           variant="outlined"
         />
       </Box>
-      <TableContainer component={Paper} sx={{ width: "70%", margin: "auto" }}>
-        <Table aria-label="transactions table">
+      <TableContainer component={Paper} sx={{ width: "90%", margin: "auto" }}>
+        <Table
+          aria-label="transactions table"
+          sx={{
+            overflowX: "auto",
+            "& th, td": {
+              padding: "0.5rem",
+              fontSize: "1.2rem",
+              backgroundColor: "var(--primary-color) !important",
+              color: "var(--text-color)",
+            },
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           <TableHead>
             <TableRow
               sx={{
                 backgroundColor: "var(--primary-color)",
-                color: "var(--text-color)",
+                "& th": {
+                  color: "var(--text-color) !important",
+                  fontSize: "1.2rem",
+                },
               }}
             >
               <TableCell>Date</TableCell>
@@ -131,7 +149,7 @@ function Transactions() {
                     <Link
                       href={`/stock/${transaction.symbol}`}
                       sx={{
-                        color: "var(--primary-color)",
+                        color: "var(--text-color)",
                         textDecoration: "none",
                         "&:hover": {
                           textDecoration: "underline",
@@ -146,7 +164,10 @@ function Transactions() {
                     ${transaction.price.toFixed(2)}
                   </TableCell>
                   <TableCell align="center">
-                    ${(transaction.quantity * transaction.price).toFixed(2)}
+                    $
+                    {(transaction.quantity * transaction.price)
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TableCell>
                   <TableCell align="center">
                     <IconButton
@@ -170,12 +191,24 @@ function Transactions() {
             color: "var(--text-color)",
           }}
         >
-          <ExpandMoreIcon /> Show Reversed Transactions
+          <ExpandMoreIcon /> {open ? "Hide" : "Show"} Reversed Transactions
         </Button>
       </Box>
       <Collapse in={open}>
-        <TableContainer component={Paper} sx={{ width: "70%", margin: "auto" }}>
-          <Table aria-label="reversed transactions table">
+        <TableContainer component={Paper} sx={{ width: "90%", margin: "auto" }}>
+          <Table
+            aria-label="reversed transactions table"
+            sx={{
+              overflowX: "auto",
+              "& th, td": {
+                padding: "0.5rem",
+                fontSize: "1.2rem",
+                backgroundColor: "var(--primary-color) !important",
+                color: "var(--text-color)",
+              },
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <TableHead>
               <TableRow
                 sx={{

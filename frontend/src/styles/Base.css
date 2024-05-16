@@ -3,17 +3,26 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Jaini Purwa", sans-serif !important;
+}
+
+@font-face {
+  font-family: "Jaini Purwa";
+  src: url("../assets/fonts/JainiPurva.ttf") format("truetype");
 }
 
 :root {
   /* Light Mode */
-  --primary-color: #007bff;
+  /* --primary-color: #007bff;
   --bg-color: #f8f9fa;
   --text-color: #000;
+  */
   /* Dark Mode */
-  /* --primary-color: #333;
+  --primary-color: #333;
   --bg-color: #222;
-  --text-color: #e5edf0; */
+  --text-color: #e5edf0;
+  --profit-color: #28a745;
+  --loss-color: #dc3545;
 }
 
 head,

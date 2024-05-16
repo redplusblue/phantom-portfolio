@@ -1,6 +1,6 @@
 import redis # type: ignore
 
-cache = redis.Redis(host='localhost', port=6379, db=0)
+cache = redis.Redis(host='localhost', port=6380, db=0)
 
 # setex: Set the value and expiration of a key
 def setex (key, duration, value):
