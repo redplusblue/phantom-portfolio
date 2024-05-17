@@ -63,7 +63,17 @@ export default function Home() {
       ) : (
         <div className="home-container">
           <h1>Redirecting...</h1>
-          {error[0] && <Alert severity="error">{error[1]}</Alert>}
+          {error[0] && (
+            <Alert
+              severity="error"
+              sx={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--text-color)",
+              }}
+            >
+              {error[1]}
+            </Alert>
+          )}
         </div>
       )}
     </>

@@ -24,10 +24,8 @@ export default function Register() {
   const [msg, setMsg] = useState([false, "", "error"]);
   const navigate = useNavigate();
 
-  // Set Document Title
-  document.title = "Register";
-
   const handleRegister = async () => {
+    document.title = "Register";
     // Disable default form submission
     event.preventDefault();
     // Don't send request if any field is empty
@@ -73,7 +71,19 @@ export default function Register() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{
+            backgroundColor: "var(--bg-color) !important",
+            color: "var(--text-color) !important",
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -83,11 +93,11 @@ export default function Register() {
               alignItems: "center",
             }}
           >
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
               Welcome to the Trading Simulator
             </Typography>
             <br />
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "var(--primary-color)" }}>
               <PersonAddAltOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -110,6 +120,40 @@ export default function Register() {
                 autoFocus
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                sx={{
+                  color: "var(--text-color)",
+                  "& .MuiInputBase-input": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "var(--text-color)",
+                  },
+                  // Label on focus
+                  "& .MuiInputLabel-outlined": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-outlined.Mui-focused": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  // Border
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -121,6 +165,40 @@ export default function Register() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                sx={{
+                  color: "var(--text-color)",
+                  "& .MuiInputBase-input": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "var(--text-color)",
+                  },
+                  // Label on focus
+                  "& .MuiInputLabel-outlined": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-outlined.Mui-focused": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  // Border
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -133,22 +211,83 @@ export default function Register() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                sx={{
+                  color: "var(--text-color)",
+                  "& .MuiInputBase-input": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "var(--text-color)",
+                  },
+                  // Label on focus
+                  "& .MuiInputLabel-outlined": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInputLabel-outlined.Mui-focused": {
+                    color: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "var(--text-color)",
+                  },
+                  // Border
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--text-color)",
+                    },
+                  },
+                }}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "var(--primary-color)",
+                  color: "var(--text-color)",
+                  "&:hover": {
+                    backgroundColor: "var(--primary-color)",
+                  },
+                }}
               >
                 Register
               </Button>
               <Grid container>
-                <Grid item xs>
+                <Grid
+                  item
+                  xs
+                  sx={{
+                    color: "var(--text-color)",
+                    "& a": {
+                      color: "var(--text-color)",
+                    },
+                  }}
+                >
                   <Link to="/login">Already have an account?</Link>
                 </Grid>
               </Grid>
             </Box>
-            {msg[0] && <Alert severity={msg[2]}>{msg[1]}</Alert>}
+            {msg[0] && (
+              <Alert
+                severity={msg[2]}
+                sx={{
+                  backgroundColor: "var(--primary-color)",
+                  color: "var(--text-color)",
+                }}
+              >
+                {msg[1]}
+              </Alert>
+            )}
           </Box>
         </Grid>
       </Grid>

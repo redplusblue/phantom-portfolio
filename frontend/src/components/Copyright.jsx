@@ -9,7 +9,17 @@ export default function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="#">
+      <Link
+        color="inherit"
+        href="#"
+        sx={{
+          color: "var(--text-color)",
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "underline",
+          },
+        }}
+      >
         Trading Simulator
       </Link>{" "}
       {new Date().getFullYear()}

@@ -54,8 +54,7 @@ function Balance({ balance }) {
       setCurBalance(responseData.balance);
     } else {
       // Handle errors, such as unauthorized access or user not found
-      setError([true, responseData.message, "error"]);
-      alert(responseData.message);
+      setError([true, responseData.error, "error"]);
     }
     handleClose();
   };
@@ -64,9 +63,30 @@ function Balance({ balance }) {
     if (presetAmount === "custom") {
       setCustomInputOpen(true);
     } else {
-      setAmount(presetAmount);
+      setCustomAmount(presetAmount);
       setShouldSubmit(true);
     }
+  };
+
+  const setCustomAmount = (newAmount) => {
+    setError([false, "", "info"]);
+    if (newAmount < 0) {
+      setError([true, "Amount cannot be negative", "warning"]);
+      setAmount("");
+      setTimeout(() => {
+        setError([false, "", "info"]);
+      }, 5000);
+      return;
+    }
+    if (newAmount > 100000) {
+      setError([true, "Amount cannot exceed $100,000", "warning"]);
+      setAmount("");
+      setTimeout(() => {
+        setError([false, "", "info"]);
+      }, 5000);
+      return;
+    }
+    setAmount(newAmount);
   };
 
   return (
@@ -156,7 +176,7 @@ function Balance({ balance }) {
               textAlign: "center",
             }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h4" component="h2">
               Add to Balance
             </Typography>
             {customInputOpen ? (
@@ -170,8 +190,36 @@ function Balance({ balance }) {
                   fullWidth
                   variant="outlined"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  sx={{ marginBottom: 2 }}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                  inputProps={{ min: 0, max: 1000000 }}
+                  sx={{
+                    marginBottom: 2,
+                    color: "var(--text-color)",
+                    borderColor: "var(--text-color)",
+                    "& .MuiInputBase-input": {
+                      color: "var(--profit-color)",
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "var(--profit-color)",
+                    },
+                    "& .MuiInput-underline:before": {
+                      borderBottomColor: "var(--text-color)",
+                    },
+                    "& .MuiInput-underline:after": {
+                      borderBottomColor: "var(--text-color)",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "var(--profit-color)",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "var(--profit-color)",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "var(--profit-color)",
+                      },
+                    },
+                  }}
                 />
                 <Button
                   onClick={submitDeposit}
@@ -179,10 +227,30 @@ function Balance({ balance }) {
                   sx={{
                     backgroundColor: "var(--primary-color)",
                     color: "var(--text-color)",
+                    "&:hover": {
+                      backgroundColor: "var(--primary-color)",
+                      color: "var(--profit-color)",
+                    },
                   }}
                 >
                   Submit
                 </Button>
+                {error[0] && (
+                  <Alert
+                    severity={error[2]}
+                    sx={{
+                      width: "max-content",
+                      textAlign: "center",
+                      margin: "auto",
+                      marginTop: 2,
+                      marginBottom: 2,
+                      backgroundColor: "var(--bg-color)",
+                      color: "var(--text-color)",
+                    }}
+                  >
+                    <Typography variant="body2">{error[1]}</Typography>
+                  </Alert>
+                )}
               </>
             ) : (
               <>
@@ -235,6 +303,9 @@ function Balance({ balance }) {
             textAlign: "center",
             margin: "auto",
             marginTop: 2,
+            marginBottom: 2,
+            backgroundColor: "var(--primary-color)",
+            color: "var(--text-color)",
           }}
         >
           <Typography variant="body2">{error[1]}</Typography>

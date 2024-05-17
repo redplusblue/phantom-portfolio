@@ -19,15 +19,41 @@ import Transactions from "./Transactions";
 import Copyright from "./Copyright";
 
 export default function Dashboard() {
+  document.title = "Dashboard";
   const [user, setUser] = useState({
     balance: 0,
     portfolio: [],
     stocklists: [],
   });
   const [value, setValue] = useState(0);
+  const [logout, setLogout] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
+    async function handleLogout() {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+      try {
+        const response = await fetch("/api/logout", {
+          method: "POST",
+          headers: { Authorization: token },
+        });
+        if (response.ok) {
+          // Remove Token
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          // Redirect to login
+          window.location.href = "/login";
+        } else {
+          console.error("Error logging out");
+        }
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
+    }
+    if (logout) {
+      handleLogout();
+    }
     async function fetchUser() {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -44,7 +70,6 @@ export default function Dashboard() {
             portfolio: JSON.parse(data.portfolio),
             stocklists: JSON.parse(data.stocklists),
           });
-          console.log("User data fetched successfully", data.portfolio);
         } else {
           console.error("Error fetching user data");
         }
@@ -53,7 +78,7 @@ export default function Dashboard() {
       }
     }
     fetchUser();
-  }, [value]);
+  }, [value, logout]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -137,7 +162,13 @@ export default function Dashboard() {
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Settings</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setLogout(true);
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </Grid>
           </Grid>
@@ -150,7 +181,7 @@ export default function Dashboard() {
           centered
           sx={{
             ".MuiTabs-indicator": {
-              backgroundColor: "var(--primary-color) !important",
+              backgroundColor: "var(--text-color) !important",
             },
             ".MuiTab-root": {
               color: "var(--text-color) !important",
@@ -172,14 +203,7 @@ export default function Dashboard() {
         {value === 2 && <Transactions />}
       </Box>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          sx={{ padding: "10px" }}
-        >
-          <Copyright />
-        </Typography>
+        <Copyright />
       </Box>
     </>
   );

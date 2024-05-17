@@ -4,10 +4,9 @@ import { Box, Button, TextField, Typography, Alert, Chip } from "@mui/material";
 import Stock from "./Stock";
 import Copyright from "./Copyright";
 
-document.title = "Stock Page";
-
 function StockPage() {
   const { symbol } = useParams();
+  document.title = `$${symbol.toUpperCase()} - Stock Page`;
   const navigate = useNavigate();
   const [currentPrice, setCurrentPrice] = useState({
     Date: "",
@@ -141,7 +140,20 @@ function StockPage() {
             marginTop: "50px",
           }}
         >
-          {error[0] && <Alert severity={error[2]}>{error[1]}</Alert>}
+          {error[0] && (
+            <Alert
+              severity={error[2]}
+              sx={{
+                width: "max-content",
+                textAlign: "center",
+                margin: "auto",
+                backgroundColor: "var(--primary-color)",
+                color: "var(--text-color)",
+              }}
+            >
+              {error[1]}
+            </Alert>
+          )}
           <Box className="current-info">
             {currentPrice && (
               <Box key={currentPrice.Date} className="info">
@@ -179,7 +191,7 @@ function StockPage() {
               justifyContent: "center",
             }}
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h4" gutterBottom>
               Buy ${symbol}
             </Typography>
             <TextField
@@ -196,9 +208,33 @@ function StockPage() {
               }}
               sx={{
                 color: "var(--text-color)",
-                backgroundColor: "var(--background-color)",
-                width: "300px",
-                "& input": { textAlign: "center" },
+                backgroundColor: "var(--bg-color)",
+                width: "200px",
+                // Border Color
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--text-color)",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--text-color)",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--text-color)",
+                  },
+                },
+                "& input": {
+                  textAlign: "center",
+                  color: "var(--text-color)",
+                  fontSize: "1.2rem",
+                  padding: "10px",
+                },
+                "& label": {
+                  color: "var(--text-color)",
+                  // Change color of label when focused
+                  "&.Mui-focused": {
+                    color: "var(--text-color)",
+                  },
+                },
               }}
               variant="outlined"
             />
@@ -214,9 +250,12 @@ function StockPage() {
           >
             <Chip
               sx={{
-                color: "var(--text-color)",
+                color:
+                  totalPrice > balance
+                    ? "var(--loss-color)"
+                    : "var(--text-color)",
                 backgroundColor: "var(--primary-color)",
-                fontSize: "1.2rem",
+                fontSize: "1.5rem",
               }}
               label={`Total Price: $${
                 isNaN(totalPrice)
@@ -226,9 +265,9 @@ function StockPage() {
             />
             <Chip
               sx={{
-                color: "var(--text-color)",
+                color: "var(--profit-color)",
                 backgroundColor: "var(--primary-color)",
-                fontSize: "1.2rem",
+                fontSize: "1.5rem",
               }}
               label={`Your Balance: $${
                 isNaN(balance)
@@ -255,9 +294,11 @@ function StockPage() {
                   sx={{
                     color: "var(--text-color)",
                     borderColor: "var(--text-color)",
+                    fontSize: "1.2rem",
                     "&:hover": {
-                      borderColor: "var(--primary-color)",
-                      color: "var(--primary-color)",
+                      backgroundColor: "var(--primary-color)",
+                      color: "var(--text-color)",
+                      borderColor: "var(--text-color)",
                     },
                   }}
                 >
@@ -267,7 +308,18 @@ function StockPage() {
             )}
           </Box>
           <Box>
-            <Button variant="contained" onClick={handleBuy}>
+            <Button
+              variant="contained"
+              onClick={handleBuy}
+              sx={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--text-color)",
+                fontSize: "1.5rem",
+                "&:hover": {
+                  backgroundColor: "var(--primary-color)",
+                },
+              }}
+            >
               Buy
             </Button>
           </Box>
