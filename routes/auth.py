@@ -46,7 +46,7 @@ def login():
     return jsonify({"error": "Invalid credentials"}), 401
 
 # Logout
-@auth_bp.route('/api/logout')
+@auth_bp.route('/api/logout', methods=['POST'])
 def logout():
     token = request.headers.get('Authorization')
     if validate_token(token):

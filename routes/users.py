@@ -52,7 +52,8 @@ def deposit():
     data = request.get_json()
     amount = data.get('amount')
     # Check if amount is valid 
-    if not amount or amount <= 0:
+    # Valid Range (Inclusive) (0, 100k]
+    if not amount or amount <= 0 or amount > 100000:
         return jsonify({'error': 'Invalid amount'}), 400
     # Retrieve user from database
     user = User.query.get(user_id)
