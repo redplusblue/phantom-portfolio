@@ -1,32 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import "../styles/Home.css";
 import { Alert } from "@mui/material";
+import Welcome from "./Welcome";
 
 document.title = "Home";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState([false, ""]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Validate token when the component mounts
     const validateToken = async () => {
       try {
-        if (
-          !localStorage.getItem("token") &&
-          !sessionStorage.getItem("token")
-        ) {
-          setError([true, "No token found, please log in"]);
-          setTimeout(() => {
-            navigate("/login");
-          }, 1500);
-        }
-
         const token =
           localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+          return;
+        }
 
         const response = await fetch("/api/token/validate", {
           method: "POST",
@@ -41,15 +34,15 @@ export default function Home() {
           localStorage.removeItem("token");
           sessionStorage.removeItem("token");
           setTimeout(() => {
-            navigate("/login");
+            setError([false, ""]);
           }, 1500);
         }
       } catch (error) {
         console.error("Error validating token:", error);
         setError([true, "Error validating token [Server Error]"]);
         setTimeout(() => {
-          navigate("/login");
-        }, 1500);
+          setError([false, ""]);
+        }, 15000);
       }
     };
     validateToken();
@@ -61,8 +54,7 @@ export default function Home() {
       {isLoggedIn ? (
         <Dashboard />
       ) : (
-        <div className="home-container">
-          <h1>Redirecting...</h1>
+        <>
           {error[0] && (
             <Alert
               severity="error"
@@ -74,7 +66,8 @@ export default function Home() {
               {error[1]}
             </Alert>
           )}
-        </div>
+          <Welcome />
+        </>
       )}
     </>
   );

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Copyright from "./Copyright";
 
 const defaultTheme = createTheme();
 
@@ -94,7 +95,11 @@ export default function Register() {
             }}
           >
             <Typography component="h1" variant="h4">
-              Welcome to the Trading Simulator
+              Welcome to the PhantomPortfolio
+            </Typography>
+            <br />
+            <Typography component="p">
+              Where Your Ghostly Investments Materialize
             </Typography>
             <br />
             <Avatar sx={{ m: 1, bgcolor: "var(--primary-color)" }}>
@@ -114,7 +119,7 @@ export default function Register() {
                 required
                 fullWidth
                 id="username"
-                label="Username"
+                label="Choose Your Ghostly Username"
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -160,7 +165,7 @@ export default function Register() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Enter Your Haunting Email"
                 name="email"
                 autoComplete="email"
                 value={email}
@@ -205,7 +210,7 @@ export default function Register() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Create Your Secret Ghostly Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -260,7 +265,7 @@ export default function Register() {
                   },
                 }}
               >
-                Register
+                Summon Your Account
               </Button>
               <Grid container>
                 <Grid
@@ -273,7 +278,7 @@ export default function Register() {
                     },
                   }}
                 >
-                  <Link to="/login">Already have an account?</Link>
+                  <Link to="/login">Already Haunting? Sign In Here</Link>
                 </Grid>
               </Grid>
             </Box>
@@ -289,6 +294,7 @@ export default function Register() {
               </Alert>
             )}
           </Box>
+          <Copyright />
         </Grid>
       </Grid>
     </ThemeProvider>

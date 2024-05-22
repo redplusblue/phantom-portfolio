@@ -20,7 +20,7 @@ export default function Copyright(props) {
           },
         }}
       >
-        Trading Simulator
+        PhantomPortfolio
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

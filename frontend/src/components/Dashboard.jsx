@@ -10,7 +10,7 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
-import { InsertEmoticonOutlined } from "@mui/icons-material";
+import { ElectricBoltOutlined } from "@mui/icons-material";
 import StockSearch from "./StockSearch";
 import "../styles/Dashboard.css";
 import Portfolio from "./Portfolio";
@@ -19,7 +19,7 @@ import Transactions from "./Transactions";
 import Copyright from "./Copyright";
 
 export default function Dashboard() {
-  document.title = "Dashboard";
+  document.title = "Dashboard | PhantomPortfolio";
   const [user, setUser] = useState({
     balance: 0,
     portfolio: [],
@@ -135,7 +135,7 @@ export default function Dashboard() {
                   color: "var(--text-color)",
                 }}
               >
-                <InsertEmoticonOutlined />
+                <ElectricBoltOutlined />
                 &nbsp; Hi, {user.username}
               </IconButton>
               <Menu
@@ -157,7 +157,10 @@ export default function Dashboard() {
                 }}
               >
                 <MenuItem style={{ cursor: "default" }}>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "var(--text-color)" }}
+                  >
                     {user.email}
                   </Typography>
                 </MenuItem>

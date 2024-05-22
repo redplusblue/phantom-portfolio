@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Copyright from "./Copyright";
 
 const defaultTheme = createTheme();
 
@@ -120,7 +121,7 @@ export default function Login() {
             }}
           >
             <Typography component="h1" variant="h4">
-              Welcome to the Trading Simulator
+              Welcome Back, Phantom Investor
             </Typography>
             <br />
             <Avatar sx={{ m: 1, bgcolor: "var(--primary-color)" }}>
@@ -140,7 +141,7 @@ export default function Login() {
                 required
                 fullWidth
                 id="username"
-                label="Username"
+                label="Enter Your Ghostly Username"
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -186,7 +187,7 @@ export default function Login() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Unveil Your Cryptic Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -241,7 +242,7 @@ export default function Login() {
                     }}
                   />
                 }
-                label="Remember me"
+                label="Don't Forget Me"
               />
               <Button
                 type="submit"
@@ -257,7 +258,7 @@ export default function Login() {
                   },
                 }}
               >
-                Sign In
+                Enter the Realm
               </Button>
               <Grid container>
                 <Grid
@@ -270,7 +271,7 @@ export default function Login() {
                     },
                   }}
                 >
-                  <Link to="/login">Forgot password?</Link>
+                  <Link to="/login">Forgot Your Cryptic Password?</Link>
                 </Grid>
                 <Grid
                   item
@@ -281,7 +282,9 @@ export default function Login() {
                     },
                   }}
                 >
-                  <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+                  <Link to="/register">
+                    {"New Here? Join the Phantom Realm"}
+                  </Link>
                 </Grid>
               </Grid>
             </Box>
@@ -298,6 +301,7 @@ export default function Login() {
               </Alert>
             )}
           </Box>
+          <Copyright />
         </Grid>
       </Grid>
     </ThemeProvider>
