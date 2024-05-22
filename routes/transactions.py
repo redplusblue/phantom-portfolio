@@ -3,6 +3,7 @@ from routes.auth import validate_token
 from models.models import db, User, Transaction
 from utils.cache import cache
 from datetime import datetime
+from scripts.stockdata import is_valid_price
 
 # Create a Blueprint for Routes
 transactions_bp = Blueprint('transactions', __name__)
@@ -45,6 +46,9 @@ def create_transaction():
     symbol = data.get('symbol')
     price = data.get('price')
     quantity = data.get('quantity')
+    status = is_valid_price(symbol, price, quantity)
+    if status != "OK":
+        return jsonify({'error': status}), 400
     # Default variables
     reversed = False
     date = datetime.now()
