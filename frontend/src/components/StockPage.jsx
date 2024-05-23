@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, Alert, Chip } from "@mui/material";
 import Stock from "./Stock";
 import Copyright from "./Copyright";
+import { ArrowBackIosOutlined } from "@mui/icons-material";
 
 function StockPage() {
   const { symbol } = useParams();
@@ -104,6 +105,28 @@ function StockPage() {
 
   return (
     <>
+      <Button
+        variant="outlined"
+        onClick={() => navigate("/")}
+        sx={{
+          backgroundColor: "var(--primary-color)",
+          border: "none",
+          color: "var(--text-color)",
+          fontSize: "1.2rem",
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          "&:hover": {
+            backgroundColor: "var(--primary-color)",
+            border: "none",
+            transform: "rotate(-3deg)",
+          },
+          transition: "transform 0.5s",
+        }}
+      >
+        <ArrowBackIosOutlined sx={{ fontSize: "1.1rem", marginRight: "5px" }} />
+        Back to Dashboard
+      </Button>
       <Typography
         variant="h2"
         sx={{

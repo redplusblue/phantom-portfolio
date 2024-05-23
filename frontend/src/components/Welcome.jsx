@@ -19,6 +19,7 @@ import {
   TrendingUpOutlined,
 } from "@mui/icons-material";
 import "../styles/Animations.css";
+import Copyright from "./Copyright";
 
 function Welcome() {
   // Helper function to format the date
@@ -159,7 +160,7 @@ function Welcome() {
           </Button>
           <Button
             color="inherit"
-            href="/signup"
+            href="/register"
             sx={{
               backgroundColor: "var(--bg-color)",
               color: "var(--text-color)",
@@ -181,7 +182,10 @@ function Welcome() {
           sx={{
             mt: 4,
             mb: 4,
-            minHeight: "80vh",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Grid
@@ -527,6 +531,8 @@ function Welcome() {
           </Grid>
         </Grid>
       </Container>
+      <Copyright />
+      <br />
     </Box>
   );
 }

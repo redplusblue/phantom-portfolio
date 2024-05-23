@@ -33,7 +33,11 @@ const NotFound = () => {
             to="/"
             variant="contained"
             color="primary"
-            style={{ marginTop: "20px" }}
+            style={{
+              marginTop: "20px",
+              backgroundColor: "var(--primary-color)",
+              color: "var(--text-color)",
+            }}
           >
             Go Home
           </Button>

@@ -43,7 +43,7 @@ export default function Dashboard() {
           localStorage.removeItem("token");
           sessionStorage.removeItem("token");
           // Redirect to login
-          window.location.href = "/login";
+          window.location.href = "/";
         } else {
           console.error("Error logging out");
         }
