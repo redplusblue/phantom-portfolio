@@ -46,3 +46,22 @@ def is_valid_price(symbol, price, quantity):
     
     # All checks passed
     return "OK"
+
+# Add a safety fallback to skip any results that have the "NaN" character or literal. Only skip the portion of the JSON that has the NaN 
+def json_sanitizer(stock_data):
+    """
+    Sanitizes the JSON response by removing NaN values.
+
+    Args:
+        stock_data (dict): The fetched stock data.
+
+    Returns:
+        dict: A dictionary containing the sanitized stock data.
+    """
+    sanitized_data = {}
+    for key, value in stock_data.items():
+        if isinstance(value, dict):
+            sanitized_data[key] = json_sanitizer(value)
+        else:
+            sanitized_data[key] = value if value == value else None
+    return sanitized_data
