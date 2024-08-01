@@ -4,7 +4,7 @@ import "../styles/Home.css";
 import { Alert } from "@mui/material";
 import Welcome from "./Welcome";
 
-document.title = "Home";
+document.title = "Home | PhantomPortfolio";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

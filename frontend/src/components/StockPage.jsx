@@ -7,7 +7,7 @@ import { ArrowBackIosOutlined } from "@mui/icons-material";
 
 function StockPage() {
   const { symbol } = useParams();
-  document.title = `$${symbol.toUpperCase()} - Stock Page`;
+  document.title = `$${symbol.toUpperCase()} - Stock Page | PhantomPortfolio`;
   const navigate = useNavigate();
   const [currentPrice, setCurrentPrice] = useState({
     Date: "",

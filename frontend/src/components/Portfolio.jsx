@@ -15,12 +15,53 @@ import {
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import propTypes from "prop-types";
 
+// Save Stocks to localStorage
+function saveStocks(stocks) {
+  // See if localStorage is available
+  if (typeof Storage === "undefined") {
+    return;
+  }
+  // Save Stocks to localStorage
+  localStorage.setItem("stocks", JSON.stringify(stocks));
+
+  // Save the time of the last save
+  localStorage.setItem("lastSave", new Date().toLocaleString());
+}
+
+// Returns True if the user has stocks in localStorage and False otherwise
+function retriveStocks() {
+  // See if localStorage is available
+  if (typeof Storage === "undefined") {
+    return false;
+  }
+  // See if there are any stocks in localStorage
+  const stocks = localStorage.getItem("stocks");
+  if (stocks === null || stocks === undefined || stocks === "[]") {
+    return false;
+  }
+  // See if the last update was more than 5 minutes ago (300000 milliseconds)
+  const lastSave = localStorage.getItem("lastSave");
+  if (new Date() - new Date(lastSave) > 300000) {
+    return false;
+  }
+  return JSON.parse(stocks);
+}
+
 function Portfolio({ portfolio }) {
   const [stocks, setStocks] = useState([portfolio]);
   const [totalValue, setTotalValue] = useState(0);
-
   useEffect(() => {
     const fetchStockPrices = async () => {
+      let savedStocks = retriveStocks();
+      if (savedStocks) {
+        setStocks(savedStocks);
+        let total = 0;
+        savedStocks.forEach((stock) => {
+          total += stock.totalValue;
+        });
+        setTotalValue(total);
+        return;
+      }
       // Map over the portfolio object and fetch current prices
       const updatedStocks = await Promise.all(
         portfolio.map(async (stock) => {
@@ -34,8 +75,12 @@ function Portfolio({ portfolio }) {
             },
           });
           const data = await response.json();
+          // if any error occurs
+          if (!response.ok || data.error || !data.length) {
+            return stock;
+          }
           // Get the latest price from the data
-          if (data) {
+          else {
             const currentPrice = data[data.length - 1].Close.toFixed(2);
             let totalVal = parseFloat(currentPrice * stock.quantity);
             return {
@@ -43,8 +88,6 @@ function Portfolio({ portfolio }) {
               currentPrice,
               totalValue: totalVal,
             };
-          } else {
-            return stock;
           }
         })
       );
@@ -53,6 +96,7 @@ function Portfolio({ portfolio }) {
         (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate)
       );
       setStocks(updatedStocks);
+      saveStocks(updatedStocks);
       let total = 0;
       updatedStocks.forEach((stock) => {
         total += stock.totalValue;

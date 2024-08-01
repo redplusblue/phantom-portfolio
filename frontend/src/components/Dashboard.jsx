@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
+  Button,
   Tab,
   Tabs,
   Typography,
@@ -10,6 +11,7 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { ElectricBoltOutlined } from "@mui/icons-material";
 import StockSearch from "./StockSearch";
 import "../styles/Dashboard.css";
@@ -42,6 +44,9 @@ export default function Dashboard() {
           // Remove Token
           localStorage.removeItem("token");
           sessionStorage.removeItem("token");
+          // Remove all stored localStorage values
+          localStorage.removeItem("stocks");
+          localStorage.removeItem("lastSave");
           // Redirect to login
           window.location.href = "/";
         } else {
@@ -177,7 +182,41 @@ export default function Dashboard() {
           </Grid>
         </AppBar>
       </Box>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={() => {
+            localStorage.removeItem("stocks");
+            localStorage.removeItem("lastSave");
+          }}
+          sx={{
+            backgroundColor: "var(--bg-color)",
+            border: "none",
+            color: "var(--text-color)",
+            fontSize: "1.2rem",
+            position: "absolute",
+            left: 0,
+            "&:hover": {
+              backgroundColor: "var(--bg-color)",
+              border: "none",
+              borderRadius: "0",
+              borderBottom: "2px solid var(--text-color)",
+            },
+            "&:active": {
+              transform: "scale(0.9)",
+            },
+            transition: "transform 0.5s",
+          }}
+        >
+          <RefreshIcon /> &nbsp; Reload
+        </Button>
         <Tabs
           value={value}
           onChange={handleChange}
