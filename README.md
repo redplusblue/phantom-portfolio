@@ -1,6 +1,7 @@
 # Phantom Portfolio: Stock Market Sandbox Platform
 
-![Phantom Portfolio](preview/welcome.png)
+![Preview Video](preview/phantom-portfolio.gif)
+![Phantom Portfolio](preview/stockpage.png)
 
 Phantom Portfolio is a comprehensive stock trading simulation platform designed to provide users with a realistic and engaging experience in stock market trading without the risks associated with real money.
 
