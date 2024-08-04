@@ -12,11 +12,13 @@ function App() {
     <Router>
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/stock/:symbol" element={<StockPage />} />
+        <Route path="/phantom-portfolio" element={<Home />} />
+        <Route path="/phantom-portfolio/login" element={<Login />} />
+        <Route path="/phantom-portfolio/register" element={<Register />} />
+        <Route
+          path="/phantom-portfolio/stock/:symbol"
+          element={<StockPage />}
+        />
       </Routes>
     </Router>
   );

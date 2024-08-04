@@ -43,7 +43,7 @@ export default function Register() {
       // Registration successful, redirect to login page
       setMsg([true, "Registration successful, redirecting...", "success"]);
       setTimeout(() => {
-        navigate("/");
+        navigate("/phantom-portfolio/");
       }, 3500);
     } else {
       // Registration failed, show error message
@@ -61,8 +61,7 @@ export default function Register() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundImage: "url(https://picsum.photos/1280/720?grayscale)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"

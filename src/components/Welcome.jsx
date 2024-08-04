@@ -144,7 +144,7 @@ function Welcome() {
           </Typography>
           <Button
             color="inherit"
-            href="/login"
+            href="/phantom-portfolio/login"
             sx={{
               backgroundColor: "var(--bg-color)",
               color: "var(--text-color)",
@@ -160,7 +160,7 @@ function Welcome() {
           </Button>
           <Button
             color="inherit"
-            href="/register"
+            href="/phantom-portfolio/register"
             sx={{
               backgroundColor: "var(--bg-color)",
               color: "var(--text-color)",

@@ -30,7 +30,7 @@ const NotFound = () => {
           </Typography>
           <Button
             component={Link}
-            to="/"
+            to="/phantom-portfolio/"
             variant="contained"
             color="primary"
             style={{

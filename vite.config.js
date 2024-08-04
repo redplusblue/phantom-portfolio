@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "https://redplusblue.github.io/phantom-portfolio/",
+  base: "/phantom-portfolio",
   ssr: {
     external: ["react", "react-dom"],
   },

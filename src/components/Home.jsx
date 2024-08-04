@@ -8,46 +8,49 @@ document.title = "Home | PhantomPortfolio";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [error, setError] = useState([false, ""]);
+  const [error, setError] = useState([
+    true,
+    "This is a preview of the Phantom Portfolio application, there is no backend connected to this preview, so you can't log in or register. To see the full application, please clone the repository and follow the instructions in the README file.",
+  ]);
+  // Not needed for preview
+  // useEffect(() => {
+  //   // Validate token when the component mounts
+  //   const validateToken = async () => {
+  //     try {
+  //       const token =
+  //         localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  useEffect(() => {
-    // Validate token when the component mounts
-    const validateToken = async () => {
-      try {
-        const token =
-          localStorage.getItem("token") || sessionStorage.getItem("token");
+  //       if (!token) {
+  //         return;
+  //       }
 
-        if (!token) {
-          return;
-        }
-
-        const response = await fetch("/api/token/validate", {
-          method: "POST",
-          headers: { Authorization: token },
-        });
-        if (response.ok) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-          setError([true, "Session expired, please log in again"]);
-          // Remove Token
-          localStorage.removeItem("token");
-          sessionStorage.removeItem("token");
-          setTimeout(() => {
-            setError([false, ""]);
-          }, 1500);
-        }
-      } catch (error) {
-        console.error("Error validating token:", error);
-        setError([true, "Error validating token [Server Error]"]);
-        setTimeout(() => {
-          setError([false, ""]);
-        }, 15000);
-      }
-    };
-    validateToken();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //       const response = await fetch("/api/token/validate", {
+  //         method: "POST",
+  //         headers: { Authorization: token },
+  //       });
+  //       if (response.ok) {
+  //         setIsLoggedIn(true);
+  //       } else {
+  //         setIsLoggedIn(false);
+  //         setError([true, "Session expired, please log in again"]);
+  //         // Remove Token
+  //         localStorage.removeItem("token");
+  //         sessionStorage.removeItem("token");
+  //         setTimeout(() => {
+  //           setError([false, ""]);
+  //         }, 1500);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error validating token:", error);
+  //       setError([true, "Error validating token [Server Error]"]);
+  //       setTimeout(() => {
+  //         setError([false, ""]);
+  //       }, 15000);
+  //     }
+  //   };
+  //   validateToken();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>

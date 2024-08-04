@@ -31,7 +31,7 @@ export default function Login() {
   // Check if user is already logged in
   try {
     if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
-      navigate("/");
+      navigate("/phantom-portfolio/");
     }
   } catch (error) {
     console.error("Error checking user login:", error);
@@ -60,7 +60,7 @@ export default function Login() {
         }
         setAlertMsg([true, "Login successful, redirecting...", "success"]);
         setTimeout(() => {
-          navigate("/");
+          navigate("/phantom-portfolio/");
         }, 1500);
       } else {
         setAlertMsg([true, "Invalid username or password", "error"]);
