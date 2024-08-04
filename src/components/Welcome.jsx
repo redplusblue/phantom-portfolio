@@ -18,6 +18,7 @@ import {
   TouchAppOutlined,
   TrendingUpOutlined,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import "../styles/Animations.css";
 import Copyright from "./Copyright";
 
@@ -29,6 +30,9 @@ function Welcome() {
     let year = date.getFullYear().toString().slice(2);
     return withoutYear + " '" + year;
   };
+
+  // Navigate hook
+  const navigate = useNavigate();
 
   // Generate dates starting from 10 days ago
   const generateDates = () => {
@@ -144,7 +148,7 @@ function Welcome() {
           </Typography>
           <Button
             color="inherit"
-            href="/phantom-portfolio/login"
+            onClick={() => navigate("/phantom-portfolio/login")}
             sx={{
               backgroundColor: "var(--bg-color)",
               color: "var(--text-color)",
@@ -160,7 +164,7 @@ function Welcome() {
           </Button>
           <Button
             color="inherit"
-            href="/phantom-portfolio/register"
+            onClick={() => navigate("/phantom-portfolio/register")}
             sx={{
               backgroundColor: "var(--bg-color)",
               color: "var(--text-color)",
