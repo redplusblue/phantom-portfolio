@@ -89,16 +89,16 @@ Phantom Portfolio follows a decoupled architecture:
    ```
 
 5. Run the application:
-   - Frontend: `npm run dev`
+   - Compile Frontend: `npm run build`
    - Backend: `flask run`
 
-Visit `http://localhost:5173` to access the application.
+Visit `http://localhost:5000` to access the application (5000 is the default port, but it can vary based on your configuration, so check the Flask console output).
 
 ## 📊 Performance
 
-- Supports over 10,000 active users concurrently
-- 40% improvement in data retrieval times
-- 20% reduction in login and transaction-related issues
+- Supports over 10,000 active users concurrently (tested with Locust.io)
+- 40% improvement in data retrieval times (compared to direct API calls)
+- 20% reduction in login and transaction-related issues (with Redis caching)
 
 ## 🛣️ Roadmap
 
