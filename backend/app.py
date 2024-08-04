@@ -1,13 +1,16 @@
-from datetime import datetime
-from flask import Flask, json
-from models.models import User, db, Transaction
+from flask import Flask, send_from_directory
+from models.models import db
 from routes.routes import routes_bp
 from routes.auth import auth_bp
 from routes.users import users_bp
 from routes.transactions import transactions_bp
 from flask_cors import CORS # type: ignore
+import os
 
 app = Flask(__name__)
+
+# Static Folder
+app = Flask(__name__, static_folder='../frontend/dist')
 
 # Cors for all origins
 CORS(app)
@@ -29,42 +32,10 @@ db.init_app(app)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    print("Request for", path)
-    return "Page not found", 404
-
-
-# Custom SQL query
-# Create transactions for all the stocks in test user's portfolio
-# with app.app_context():
-#     user = User.query.get(1)
-#     if (user):
-#         portfolio = json.loads(user.portfolio)
-#         for stock in portfolio:
-#             transaction = Transaction(symbol=stock['symbol'], price=stock['purchasePrice'], quantity=stock['quantity'], date=datetime.strptime(stock['purchaseDate'], '%Y-%m-%d'), user=user)
-#             db.session.add(transaction)
-#         db.session.commit()
-#     else:
-#         print('User not found')
-        
-# Edit user portfolio
-# with app.app_context():
-#     user = User.query.get(1)
-
-#     if (user):
-#         tsla_stock = Stock(symbol='TSLA', purchasePrice=176.80, purchaseDate=datetime(2024, 5, 7), quantity=4, user=user)
-#         aapl_stock = Stock(symbol='AAPL', purchasePrice=182.23, purchaseDate=datetime(2024, 5, 7), quantity=5, user=user)
-#         spy_stock = Stock(symbol='SPY', purchasePrice=495.16, purchaseDate=datetime(2024, 4, 19), quantity=10, user=user)
-#         tsla_data = {'symbol': tsla_stock.symbol, 'purchasePrice': tsla_stock.purchasePrice, 'purchaseDate': tsla_stock.purchaseDate.strftime('%Y-%m-%d'), 'quantity': tsla_stock.quantity}
-#         aapl_data = {'symbol': aapl_stock.symbol, 'purchasePrice': aapl_stock.purchasePrice, 'purchaseDate': aapl_stock.purchaseDate.strftime('%Y-%m-%d'), 'quantity': aapl_stock.quantity}
-#         spy_data = {'symbol': spy_stock.symbol, 'purchasePrice': spy_stock.purchasePrice, 'purchaseDate': spy_stock.purchaseDate.strftime('%Y-%m-%d'), 'quantity': spy_stock.quantity}
-
-#         # Store serialized data in user's portfolio
-#         user.portfolio = json.dumps([tsla_data, aapl_data, spy_data]) 
-#         db.session.commit()
-#     else:
-#         print('User not found')
-
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
  
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
