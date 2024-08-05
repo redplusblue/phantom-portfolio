@@ -81,14 +81,19 @@ Phantom Portfolio follows a decoupled architecture:
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    pip install -r requirements.txt
    ```
+4. Initialize DB (Before running for the first time)
 
-4. Start Redis server:
+   ```
+   python backend/init_db.py
+   ```
+
+6. Start Redis server:
 
    ```
    redis-server backend/redis.conf
    ```
 
-5. Run the application:
+7. Run the application:
    - Compile Frontend: `npm run build`
    - Backend: `flask run`
 
